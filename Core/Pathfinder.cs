@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using PathfindingAttempt.Core;
 using PathfindingAttempt.Interfaces;
 
-namespace PathfindingAttempt.PathfindingAlgorithm
+namespace PathfindingAttempt.Core
 {
     public class Pathfinder : IPathfind
     {

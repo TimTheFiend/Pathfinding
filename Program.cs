@@ -12,7 +12,7 @@ namespace PathfindingAttempt
             Vector2 startPosition = new Vector2(0, 0);
             Vector2 endPosition = new Vector2(8, 7);
 
-            
+
             Vector2[] walls = new Vector2[] {
                 new Vector2(1, 8),
                 new Vector2(2, 7),
@@ -24,7 +24,38 @@ namespace PathfindingAttempt
                 new Vector2(8, 1)
             };
 
-            new BreadthFirstSearch().Main(columns, rows, startPosition, endPosition, walls);
+            int input = 0;
+            
+            while (true) {
+                Console.WriteLine("1: Breadth-first Search");
+                Console.WriteLine("2: Early Exit (Based on Breadth-First search)");
+                Console.Write("Please select which pathfinding algorithm you want to use, escape for exit: ");
+                ConsoleKeyInfo name = Console.ReadKey();
+
+                if (name.Key == ConsoleKey.Escape) {
+                    return;
+                }
+
+                string stringInput = name.KeyChar.ToString();
+                if (Int32.TryParse(stringInput, out input)) {
+
+                    break;
+                }
+                Console.Clear();
+            }
+            Console.Clear();
+
+            switch (input) {
+                case 1:
+                    new BreadthFirstSearch().Main(columns, rows, startPosition, endPosition, walls);
+                    break;
+                case 2:
+                    new EarlyExit().Main(columns, rows, startPosition, endPosition, walls);
+                    break;
+                default:
+                    break;
+            }
+
 
 
             return;
