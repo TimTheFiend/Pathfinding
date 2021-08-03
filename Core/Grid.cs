@@ -46,7 +46,6 @@ namespace Pathfinding.Core
                 return grid[vector2.y, vector2.x];
             }
             set {
-
                 grid[vector2.y, vector2.x] = value;
             }
         }

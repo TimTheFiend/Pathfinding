@@ -29,11 +29,10 @@ namespace Pathfinding
 
             int input = 0;
 
-            new Dijkstra().Main(columns, rows, startPosition, endPosition);
-            return;
             while (true) {
                 Console.WriteLine("1: Breadth-first Search");
                 Console.WriteLine("2: Early Exit (Based on Breadth-First search)");
+                Console.WriteLine("3: Dijkstra");
                 Console.Write("Please select which pathfinding algorithm you want to use, escape for exit: ");
                 ConsoleKeyInfo name = Console.ReadKey();
 
@@ -57,13 +56,12 @@ namespace Pathfinding
                 case 2:
                     new EarlyExit().Main(columns, rows, startPosition, endPosition, walls);
                     break;
+                case 3:
+                    new Dijkstra().Main(columns, rows, startPosition, endPosition, walls);
+                    break;
                 default:
                     break;
             }
-
-
-
-            return;
         }
     }
 }
