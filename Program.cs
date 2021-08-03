@@ -33,6 +33,7 @@ namespace Pathfinding
                 Console.WriteLine("1: Breadth-first Search");
                 Console.WriteLine("2: Early Exit (Based on Breadth-First search)");
                 Console.WriteLine("3: Dijkstra");
+                Console.WriteLine("4: Heuristic");
                 Console.Write("Please select which pathfinding algorithm you want to use, escape for exit: ");
                 ConsoleKeyInfo name = Console.ReadKey();
 
@@ -58,6 +59,9 @@ namespace Pathfinding
                     break;
                 case 3:
                     new Dijkstra().Main(columns, rows, startPosition, endPosition, walls);
+                    break;
+                case 4:
+                    new Heuristic().Main(columns, rows, startPosition, endPosition, walls);
                     break;
                 default:
                     break;
