@@ -23,11 +23,22 @@ namespace Pathfinding.PathfindingAlgorithm
             }
             #endregion
 
+            #region Non-unique
             PriorityQueue<Vector2> frontier = new PriorityQueue<Vector2>();
             frontier.Enqueue(startPosition, 0.0);
-
+            
             Dictionary<Vector2, Nullable<Vector2>> cameFrom = new Dictionary<Vector2, Vector2?>();
             cameFrom.Add(startPosition, null);
+            #endregion
+
+            Random rng = new Random();
+
+            Grid<int> costGrid = new Grid<int>(rows, columns);
+            for (int x = 0; x < costGrid.columns; x++) {
+                for (int y = 0; y < costGrid.rows; y++) {
+                    costGrid[x, y] = rng.Next(1, 9);
+                }
+            }
 
             Dictionary<Vector2, double> movementCost = new Dictionary<Vector2, double>();
             movementCost.Add(startPosition, 0.0);
@@ -35,14 +46,70 @@ namespace Pathfinding.PathfindingAlgorithm
             while (frontier.Count >= 0) {
                 Vector2 currentPosition = frontier.Dequeue();
 
+
                 if (currentPosition == endPosition) {
                     break;
                 }
 
                 foreach (Vector2 direction in CardinalDirections) {
-                    double newCost = movementCost[currentPosition];
+                    Vector2 nextPosition = new Vector2(currentPosition + direction);
+                    if (IsPositionInsideGrid(columns, rows, nextPosition)) {
+
+                        double newCost = movementCost[currentPosition] + costGrid[nextPosition];
+                        //double newCost = movementCost[currentPosition] + costGrid[nextPosition];
+
+                        if (!movementCost.ContainsKey(nextPosition) || newCost < movementCost[nextPosition]) {
+
+                            movementCost[nextPosition] = newCost;
+
+                            double priority = newCost;
+                            frontier.Enqueue(nextPosition, priority);
+                            cameFrom[nextPosition] = currentPosition;
+                        }
+                    }
                 }
             }
+
+            ///`cameFrom` should now contain a list of every single position on the grid
+            ///And we can now walk back from the endPosition to startPosition
+            Vector2 currentPathPosition = endPosition;
+            List<Vector2> path = new List<Vector2>();
+
+            while (currentPathPosition != startPosition) {
+                path.Add(currentPathPosition);
+                currentPathPosition = cameFrom[currentPathPosition].Value;
+            }
+
+            //Minor aesthetic choices
+            path.Add(startPosition);
+            path.Reverse();
+
+            //Printout
+
+            for (int y = 0; y < costGrid.columns; y++) {
+                string printout = "";
+                for (int x = 0; x < costGrid.rows; x++) {
+                    printout += costGrid[x,y].ToString();
+                }
+                Console.WriteLine(printout);
+            }
+
+            Console.WriteLine("\n\n");
+
+            for (int y = 0; y < costGrid.columns; y++) {
+                string printout = "";
+                for (int x = 0; x < costGrid.rows; x++) {
+                    if (path.Contains(new Vector2(x, y))) {
+                        printout += "X";
+                        continue;
+                    }
+                    printout += costGrid[x, y].ToString();
+                }
+                Console.WriteLine(printout);
+            }
+
+
+            PrintoutPath(path);
         }
     }
 }

@@ -78,6 +78,8 @@ namespace Pathfinding.Core
 
             PrintoutGrid(grid, columns, rows);
         }
+        
+
 
         protected void PrintoutPath(List<Vector2> path) {
             int counter = 0;

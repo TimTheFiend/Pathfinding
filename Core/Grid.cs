@@ -4,6 +4,10 @@ using System.Text;
 
 namespace Pathfinding.Core
 {
+    ///<summary>
+    ///Representation of a 2D grid, with an X-, and a Y-axis.<br></br>
+    ///The grid can be of any type.
+    ///</summary>
     public struct Grid<T>
     {
         public T[,] grid;
@@ -34,6 +38,16 @@ namespace Pathfinding.Core
             }
             set {
                 grid[y, x] = value;
+            }
+        }
+
+        public T this[Vector2 vector2] {
+            get {
+                return grid[vector2.y, vector2.x];
+            }
+            set {
+
+                grid[vector2.y, vector2.x] = value;
             }
         }
     }
