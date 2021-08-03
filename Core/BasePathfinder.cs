@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using PathfindingAttempt.Interfaces;
+using Pathfinding.Interfaces;
 
-namespace PathfindingAttempt.Core
+namespace Pathfinding.Core
 {
-    public class Pathfinder : IPathfind
+    public class BasePathfinder : IPathfind
     {
         public string[,] CreateNewGrid(int columns, int rows) {
             string[,] grid = new string[columns, rows];

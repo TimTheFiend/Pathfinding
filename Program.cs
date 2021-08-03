@@ -1,8 +1,8 @@
 ﻿using System;
-using PathfindingAttempt.Core;
-using PathfindingAttempt.PathfindingAlgorithm;
+using Pathfinding.Core;
+using Pathfinding.PathfindingAlgorithm;
 
-namespace PathfindingAttempt
+namespace Pathfinding
 {
     class Program
     {

@@ -1,18 +1,18 @@
-﻿using PathfindingAttempt.Interfaces;
-using PathfindingAttempt.Core;
+﻿using Pathfinding.Interfaces;
+using Pathfinding.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PathfindingAttempt.PathfindingAlgorithm
+namespace Pathfinding.PathfindingAlgorithm
 {
     /// <summary>
     /// Pathfinding that goes to every possible location and retraces itself from the end back towards the starting point.
     /// <br></br>
     /// <see href="https://en.wikipedia.org/wiki/Breadth-first_search"/>
     /// </summary>
-    /// <seealso cref="PathfindingAttempt.PathfindingAlgorithm.Pathfinder" />
-    public class BreadthFirstSearch : Pathfinder
+    /// <seealso cref="Pathfinding.PathfindingAlgorithm.Pathfinder" />
+    public class BreadthFirstSearch : BasePathfinder
     {
         public override void Main(int columns, int rows, Vector2 startPosition, Vector2 endPosition, params Vector2[] walls) {
             #region Validating user input

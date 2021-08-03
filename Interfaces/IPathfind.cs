@@ -1,9 +1,9 @@
-﻿using PathfindingAttempt.Core;
+﻿using Pathfinding.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PathfindingAttempt.Interfaces
+namespace Pathfinding.Interfaces
 {
     public interface IPathfind
     {

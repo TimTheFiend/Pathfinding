@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using PathfindingAttempt.Core;
+using Pathfinding.Core;
 using System.Text;
 
-namespace PathfindingAttempt.PathfindingAlgorithm
+namespace Pathfinding.PathfindingAlgorithm
 {
-    public class EarlyExit : Pathfinder
+    public class EarlyExit : BasePathfinder
     {
         public override void Main(int columns, int rows, Vector2 startPosition, Vector2 endPosition, params Vector2[] walls) {
             #region Validating user input

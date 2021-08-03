@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace PathfindingAttempt.Core
+namespace Pathfinding.Core
 {
     public struct Grid
     {
