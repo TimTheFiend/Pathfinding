@@ -4,29 +4,18 @@ using System.Text;
 
 namespace Pathfinding.Core
 {
-    public struct Grid
+    public struct Grid<T>
     {
-        public string[,] grid;
+        public T[,] grid;
         public Vector2 dimensions;
         public int rows;
         public int columns;
 
         public Grid(int rows, int columns) {
-            grid = new string[columns, rows];
+            grid = new T[columns, rows];
             dimensions = new Vector2(rows, columns);
             this.rows = rows;
             this.columns = columns;
-
-            ResetGrid();
-        }
-
-        public void ResetGrid() {
-            for (int y = 0; y < rows; y++) {
-                for (int x = 0; x < columns; x++) {
-                    Vector2 temp = new Vector2(x, y);
-                    grid[x, y] = ".";
-                }
-            }
         }
 
         public void Print() {
@@ -39,7 +28,7 @@ namespace Pathfinding.Core
             }
         }
 
-        public string this[int x, int y] {
+        public T this[int x, int y] {
             get {
                 return grid[y, x];
             }

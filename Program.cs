@@ -9,12 +9,12 @@ namespace Pathfinding
         static void Main(string[] args) {
 
 
-            int columns = 20;
+            int columns = 10;
             int rows = 10;
             Vector2 startPosition = new Vector2(0, 0);
             Vector2 endPosition = new Vector2(8, 7);
 
-            Grid grid = new Grid(rows, columns);
+            Grid<string> grid = new Grid<string>(rows, columns);
 
             Vector2[] walls = new Vector2[] {
                 new Vector2(1, 8),
