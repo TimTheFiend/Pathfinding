@@ -1,18 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Pathfinding.Core;
 
 namespace Pathfinding.PathfindingAlgorithm
 {
+    /// <summary>
+    /// Similarly to Breadth-First Search, Dijkstra's algorithm explores every possible direction on a weighted grid,
+    /// ie. a grid where each position has a value assigned to it, signifying the cost to move into that space.<br></br>
+    /// Dijkstra is concerned with finding the most efficient route to `endPosition`,
+    /// retracing it's found path based on cost efficiency instead of the route with the fewest moves.
+    /// </summary>
+    /// <seealso cref="Pathfinding.Core.BasePathfinder" />
     public class Dijkstra : BasePathfinder
     {
-        public override void Main(int columns, int rows, Vector2 startPosition, Vector2 endPosition, params Vector2[] walls) {
-            //TODO: extract this method and make it seperate
+        public override void Main(int columns,
+            int rows,
+            Vector2 startPosition,
+            Vector2 endPosition,
+            int randomSeed = 0,
+            params Vector2[] walls) {  //TODO: extract this method and make it seperate
+
             #region Validating user input
+
             List<Vector2> checkPositions = new List<Vector2>() { startPosition, endPosition };
 
+            List<Vector2> wallList = new List<Vector2>();
+
             if (walls.Length > 0) {
+                wallList = CreateListOfWalls(walls);
                 foreach (Vector2 position in walls) {
                     checkPositions.Add(position);
                 }
@@ -21,26 +36,35 @@ namespace Pathfinding.PathfindingAlgorithm
                 Console.WriteLine("Invalid Vector2 values given.");
                 return;
             }
-            #endregion
+
+            #endregion Validating user input
 
             #region Non-unique
+
             PriorityQueue<Vector2> frontier = new PriorityQueue<Vector2>();
             frontier.Enqueue(startPosition, 0.0);
 
             Dictionary<Vector2, Nullable<Vector2>> cameFrom = new Dictionary<Vector2, Vector2?>();
             cameFrom.Add(startPosition, null);
-            #endregion
+
+            #endregion Non-unique
 
             #region Randomly Generate Cost map
-            Random rng = new Random();
+
+            Random rng = GetRandom(randomSeed);
 
             Grid<int> costGrid = new Grid<int>(rows, columns);
             for (int x = 0; x < costGrid.columns; x++) {
                 for (int y = 0; y < costGrid.rows; y++) {
+                    if (wallList.Contains(new Vector2(x, y))) {
+                        costGrid[x, y] = 0;
+                        continue;
+                    }
                     costGrid[x, y] = rng.Next(1, 9);
                 }
             }
-            #endregion
+
+            #endregion Randomly Generate Cost map
 
             //`movementCost` contains the cost of any given position, and the cost to get there
             Dictionary<Vector2, double> movementCost = new Dictionary<Vector2, double>();
@@ -55,8 +79,7 @@ namespace Pathfinding.PathfindingAlgorithm
 
                 foreach (Vector2 direction in CardinalDirections) {
                     Vector2 nextPosition = new Vector2(currentPosition + direction);
-                    if (IsPositionInsideGrid(columns, rows, nextPosition)) {
-
+                    if (IsPositionInsideGrid(columns, rows, nextPosition) && !wallList.Contains(nextPosition)) {
                         //The movementCost to get here from `startPosition`
                         double newCost = movementCost[currentPosition] + costGrid[nextPosition];
 
@@ -72,6 +95,7 @@ namespace Pathfinding.PathfindingAlgorithm
             }
 
             #region Non-unique
+
             Vector2 currentPathPosition = endPosition;
             List<Vector2> path = new List<Vector2>();
 
@@ -83,9 +107,11 @@ namespace Pathfinding.PathfindingAlgorithm
             //Minor aesthetic choices
             path.Add(startPosition);
             path.Reverse();
-            #endregion
+
+            #endregion Non-unique
 
             #region Drawing
+
             //Only prints out the `costGrid`
             for (int y = 0; y < costGrid.columns; y++) {
                 string printout = "";
@@ -110,9 +136,9 @@ namespace Pathfinding.PathfindingAlgorithm
                 Console.WriteLine(printout);
             }
 
-
             PrintoutPath(path);
-            #endregion
+
+            #endregion Drawing
         }
     }
 }

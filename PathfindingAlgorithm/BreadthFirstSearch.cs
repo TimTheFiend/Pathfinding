@@ -1,8 +1,6 @@
-﻿using Pathfinding.Interfaces;
-using Pathfinding.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using Pathfinding.Core;
 
 namespace Pathfinding.PathfindingAlgorithm
 {
@@ -14,8 +12,15 @@ namespace Pathfinding.PathfindingAlgorithm
     /// <seealso cref="Pathfinding.PathfindingAlgorithm.Pathfinder" />
     public class BreadthFirstSearch : BasePathfinder
     {
-        public override void Main(int columns, int rows, Vector2 startPosition, Vector2 endPosition, params Vector2[] walls) {
+        public override void Main(int columns,
+            int rows,
+            Vector2 startPosition,
+            Vector2 endPosition,
+            int randomSeed = 0,
+            params Vector2[] walls) {
+
             #region Validating user input
+
             List<Vector2> checkPositions = new List<Vector2>() { startPosition, endPosition };
 
             if (walls.Length > 0) {
@@ -27,7 +32,8 @@ namespace Pathfinding.PathfindingAlgorithm
                 Console.WriteLine("Invalid Vector2 values given.");
                 return;
             }
-            #endregion
+
+            #endregion Validating user input
 
             //Decided to make it string values instead of ints for nicer printouts
             string[,] grid = CreateNewGrid(columns, rows);
@@ -75,7 +81,7 @@ namespace Pathfinding.PathfindingAlgorithm
             //Minor aesthetic choices
             path.Add(startPosition);
             path.Reverse();
-            
+
             //Printout
             PrintFoundPath(path, grid, columns, rows);
             PrintoutPath(path);

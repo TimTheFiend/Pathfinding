@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using Pathfinding.Core;
-using System.Text;
 
 namespace Pathfinding.PathfindingAlgorithm
 {
+    /// <summary>
+    /// Exactly like Breadth-First Search, except that Early Exit stops exploring as soon as the `endPosition` has been discovered.<br></br>
+    /// Otherwise it's exactly the same as Breadth.
+    /// </summary>
+    /// <seealso cref="Pathfinding.Core.BasePathfinder" />
     public class EarlyExit : BasePathfinder
     {
-        public override void Main(int columns, int rows, Vector2 startPosition, Vector2 endPosition, params Vector2[] walls) {
+        public override void Main(int columns,
+            int rows,
+            Vector2 startPosition,
+            Vector2 endPosition,
+            int randomSeed = 0,
+            params Vector2[] walls) {
             #region Validating user input
             List<Vector2> checkPositions = new List<Vector2>() { startPosition, endPosition };
 

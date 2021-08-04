@@ -4,17 +4,17 @@ using Pathfinding.PathfindingAlgorithm;
 
 namespace Pathfinding
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args) {
+        private static void Main(string[] args) {
 
+            #region input variables
 
-            int columns = 10;
-            int rows = 10;
+            int columns = 20;
+            int rows = 20;
+            int rngSeed = 111193;
             Vector2 startPosition = new Vector2(0, 0);
-            Vector2 endPosition = new Vector2(8, 7);
-
-            Grid<string> grid = new Grid<string>(rows, columns);
+            Vector2 endPosition = new Vector2(17, 15);
 
             Vector2[] walls = new Vector2[] {
                 new Vector2(1, 8),
@@ -27,6 +27,10 @@ namespace Pathfinding
                 new Vector2(8, 1)
             };
 
+            #endregion input variables
+
+            #region Choice menu
+
             int input = 0;
 
             while (true) {
@@ -34,6 +38,7 @@ namespace Pathfinding
                 Console.WriteLine("2: Early Exit (Based on Breadth-First search)");
                 Console.WriteLine("3: Dijkstra");
                 Console.WriteLine("4: Heuristic");
+                Console.WriteLine("5: A* (A Star)");
                 Console.Write("Please select which pathfinding algorithm you want to use, escape for exit: ");
                 ConsoleKeyInfo name = Console.ReadKey();
 
@@ -43,29 +48,41 @@ namespace Pathfinding
 
                 string stringInput = name.KeyChar.ToString();
                 if (Int32.TryParse(stringInput, out input)) {
-
+                    Console.Clear();
                     break;
                 }
                 Console.Clear();
             }
-            Console.Clear();
 
+            BasePathfinder pathfinderToRun = new BasePathfinder();
             switch (input) {
                 case 1:
-                    new BreadthFirstSearch().Main(columns, rows, startPosition, endPosition, walls);
+                    pathfinderToRun = new BreadthFirstSearch();
                     break;
+
                 case 2:
-                    new EarlyExit().Main(columns, rows, startPosition, endPosition, walls);
+                    pathfinderToRun = new EarlyExit();
                     break;
+
                 case 3:
-                    new Dijkstra().Main(columns, rows, startPosition, endPosition, walls);
+                    pathfinderToRun = new Dijkstra();
                     break;
+
                 case 4:
-                    new Heuristic().Main(columns, rows, startPosition, endPosition, walls);
+                    pathfinderToRun = new Heuristic();
                     break;
+
+                case 5:
+                    pathfinderToRun = new AStar();
+                    break;
+
                 default:
                     break;
             }
+
+            pathfinderToRun.Main(columns, rows, startPosition, endPosition, rngSeed, walls);
+
+            #endregion Choice menu
         }
     }
 }

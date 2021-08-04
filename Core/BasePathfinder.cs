@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Pathfinding.Interfaces;
 
 namespace Pathfinding.Core
 {
-    public class BasePathfinder : IPathfind
+    public class BasePathfinder
     {
         public string[,] CreateNewGrid(int columns, int rows) {
             string[,] grid = new string[columns, rows];
@@ -16,7 +15,7 @@ namespace Pathfinding.Core
             return grid;
         }
 
-        public bool IsPositionInsideGrid(int gridColumns, int gridRows, params Vector2[] positions) {
+        protected bool IsPositionInsideGrid(int gridColumns, int gridRows, params Vector2[] positions) {
             Vector2 gridSize = new Vector2(gridRows - 1, gridColumns - 1);
 
             foreach (Vector2 position in positions) {
@@ -29,7 +28,7 @@ namespace Pathfinding.Core
             return true;
         }
 
-        public List<Vector2> CardinalDirections {
+        protected List<Vector2> CardinalDirections {
             get {
 
                 return new List<Vector2>() {
@@ -41,7 +40,7 @@ namespace Pathfinding.Core
             }
         }
 
-        public void PrintoutGrid(string[,] grid, int columns, int rows) {
+        protected void PrintoutGrid(string[,] grid, int columns, int rows) {
             for (int y = columns - 1; y > -1; y--) {
                 for (int x = 0; x < rows; x++) {
                     Console.Write(grid[y, x].ToString());
@@ -67,11 +66,16 @@ namespace Pathfinding.Core
         /// <param name="startPosition">The start position.</param>
         /// <param name="endPosition">The end position.</param>
         /// <param name="walls">Location of impassable "walls".</param>
-        public virtual void Main(int columns, int rows, Vector2 startPosition, Vector2 endPosition, params Vector2[] walls) {
+        public virtual void Main(int columns,
+            int rows,
+            Vector2 startPosition,
+            Vector2 endPosition,
+            int seed = 0,
+            params Vector2[] walls) {
             
         }
 
-        public void PrintFoundPath(List<Vector2> path, string[,] grid, int columns, int rows) {
+        protected void PrintFoundPath(List<Vector2> path, string[,] grid, int columns, int rows) {
             foreach (Vector2 position in path) {
                 grid[position.y, position.x] = "X"; 
             }
@@ -79,8 +83,6 @@ namespace Pathfinding.Core
             PrintoutGrid(grid, columns, rows);
         }
         
-
-
         protected void PrintoutPath(List<Vector2> path) {
             int counter = 0;
             string printout = "";
@@ -104,6 +106,17 @@ namespace Pathfinding.Core
             foreach (Vector2 wall in walls) {
                 grid[wall.y, wall.x] = "#";
             }
+        }
+
+        protected Random GetRandom(int seed) {
+            if (seed == 0) {
+                return new Random();
+            }
+            return new Random(seed);
+        }
+
+        protected int GetHeuristic(Vector2 v1, Vector2 v2) {
+            return Math.Abs(v1.x - v2.x) + Math.Abs(v1.y - v2.y);
         }
     }
 }
